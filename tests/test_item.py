@@ -40,6 +40,16 @@ def test_instantiate_from_csv():
     assert len(Item.all) == 5
 
 
+def test_check_repr_and_str():
+    """
+    Тест проверяет, что магические методы __repr__ и __str__ корректно возвращает информацию.
+    """
+    item1 = Item("Смартфон", 10000, 20)
+    assert repr(item1) == 'Item("Смартфон", 10000, 20)'
+    assert str(item1) == 'Смартфон - 10000 - 20'
+
+
+
 
 if __name__ == "__main__":
     pytest.main()
