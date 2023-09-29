@@ -70,4 +70,3 @@ class Item:
     @staticmethod
     def string_to_number(txt) -> int:
         return int(float(txt))
-
