@@ -37,7 +37,7 @@ def test_instantiate_from_csv():
     Тест проверяет, что метод instantiate_from_csv корректно создает экземпляры товаров из CSV-файла.
     """
     Item.instantiate_from_csv("./src/items.csv")
-    assert len(Item.all) == 9
+    assert len(Item.all) == 5
 
 
 
