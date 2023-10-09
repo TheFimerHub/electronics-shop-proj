@@ -47,3 +47,7 @@ def test_invalid_number_of_sim(sample_items):
         phone1.number_of_sim = 0
 
     assert str(exc_info.value) == "Количество физических SIM-карт должно быть целым числом больше нуля"
+
+
+if __name__ == "__main__":
+    pytest.main()
