@@ -1,5 +1,6 @@
 import pytest
 from src.item import Item
+from src.exceptions import InstantiateCSVError
 
 
 @pytest.fixture
@@ -63,6 +64,18 @@ def test_instantiate_from_csv():
     """
     Item.instantiate_from_csv("./src/items.csv")
     assert len(Item.all) == 5
+
+    with pytest.raises(FileNotFoundError) as exc_info:
+        Item.instantiate_from_csv()
+
+    assert str(exc_info.value) == "Отсутствует файл csv"
+
+    with pytest.raises(InstantiateCSVError) as exc_info:
+        Item.instantiate_from_csv('./src/test_items.csv')
+
+    assert str(exc_info.value) == 'Файл CSV поврежден'
+
+
 
 
 @pytest.mark.magic_methods

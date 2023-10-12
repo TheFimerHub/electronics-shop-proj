@@ -1,4 +1,8 @@
 import csv
+from typing import Any
+
+from src.exceptions import csv_verification, InstantiateCSVError
+
 
 class Item:
     """
@@ -7,7 +11,7 @@ class Item:
     # Ставка оплаты по умолчанию
     pay_rate = 1.0
     # Список всех товаров
-    all = []
+    all: list = []
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -18,7 +22,7 @@ class Item:
         self._name = name
         self.price = price
         self.quantity = quantity
-        Item.all.append(self)
+        self.all.append(self)
 
     def __repr__(self):
         return f'{self.__class__.__name__}("{self.name}", {self.price}, {self.quantity})'
@@ -58,19 +62,26 @@ class Item:
         self._name = name
 
     @classmethod
-    def instantiate_from_csv(cls, path: str) -> None:
+    def instantiate_from_csv(cls, path: Any = None) -> None:
         """
         Создает экземпляры товаров из CSV-файла и добавляет их в список.
 
         :param path: Путь к CSV-файлу.
         """
+
         # Очищаем список all перед инициализацией из csv файла
+        if path is None:
+            raise FileNotFoundError("Отсутствует файл csv")
+
         cls.all.clear()
 
-        with open(path, newline='', encoding='cp1251') as csvfile:
+        with open(f'{path}', newline='', encoding='cp1251') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                cls(row['name'], row['price'], row['quantity'])
+                try:
+                    cls(row['name'], row['price'], row['quantity'])
+                except Exception:
+                    raise InstantiateCSVError
 
     @staticmethod
     def string_to_number(txt: str) -> int:
